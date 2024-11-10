@@ -81,7 +81,7 @@ class Deck {
       );
     }
 
-    hand.sort((a, b) => a - b);
+    hand.sort((a, b) => a.priority - b.priority);
 
     /*
         I KNOW THAT WHEN I SORT THE CARDS THE FIRST INDEX WILL ALWAYS HAVE 10
@@ -89,7 +89,7 @@ class Deck {
         I CAN CHECK THE HIGH STRAIGHT LOGIC BEFORE ENTERING THE MAIN LOOP
     */
 
-    if (hand[0].priority === 10 && hand[hand.length - 1].priority === 1) {
+    if (hand[0].priority === 1 && hand[hand.length - 1].priority === 13) {
       console.log("High Straight!");
       return true;
     }
@@ -134,6 +134,14 @@ const straightHand1 = [
   new Card("A", "Hearts", 1),
   new Card("2", "Diamonds", 2),
   new Card("3", "Clubs", 3),
+  new Card("4", "Spades", 4),
+  new Card("5", "Hearts", 5),
+];
+
+const straightHandTest = [
+  new Card("3", "Hearts", 3),
+  new Card("2", "Diamonds", 2),
+  new Card("A", "Clubs", 1),
   new Card("4", "Spades", 4),
   new Card("5", "Hearts", 5),
 ];
@@ -201,3 +209,5 @@ myDeck.isStraight(regularStraightHand); // Should print "Consecutive!" and retur
 myDeck.isStraight(nonStraightHand); // Should print "Not Consecutive!" and return false
 myDeck.isStraight(incompleteStraightHand); // Should print "Not Consecutive!" and return false
 myDeck.isStraight(duplicateRanksHand); // Should print "Not Consecutive!" and return false
+
+myDeck.isStraight(straightHandTest);

@@ -95,19 +95,30 @@ class Deck {
       prioritiesSet.add(card.priority);
     }
 
-    //if there is no duplicate  then we would continue with sorting!
-    hand.sort((a, b) => a.priority - b.priority);
-
     /*
-        I KNOW THAT WHEN I SORT THE CARDS THE LAST INDEX WILL ALWAYS HAVE 13
-        AND THE FIRST INDEX WILL HAVE THE 1 PRIORITY DUE TO SORTING. THEREFORE,
-        I CAN CHECK THE HIGH STRAIGHT LOGIC BEFORE CHECKING THE OTHER CONDITIONS
+      First I check if hand has A and K if not there is no need to iterate for 
+      high straight Checks.
     */
+    if (prioritiesSet.has(13) && prioritiesSet.has(1)) {
+      const highStraightHandConditionArray = [1, 10, 11, 12, 13];
 
-    if (hand[0].priority === 1 && hand[hand.length - 1].priority === 13) {
-      console.log("High Straight!");
-      return true;
+      /*
+      Checking the highstraight condition with A to 10.
+      If fulfills the condition return true;
+      */
+
+      const checkIfItIsHighStraightOrNot = hand.every((card) =>
+        highStraightHandConditionArray.includes(card.priority)
+      );
+
+      if (checkIfItIsHighStraightOrNot) {
+        console.log("High Straight!");
+        return true;
+      }
     }
+
+    //if there is no duplicate and no high straight condition then we would continue with sorting!
+    hand.sort((a, b) => a.priority - b.priority);
 
     /*
       THE FIRST IDEA I HAD WAS USING A FOR LOOP AND COUNTING THE DISTANCE BETWEEN EACH CARD
@@ -313,6 +324,15 @@ const handWithDuplicatePriorities = [
   new Card("10", "Hearts", 10),
 ];
 
+const highStraightText = [
+  new Card("10", "Hearts", 10),
+  new Card("J", "Diamonds", 11),
+  new Card("K", "Clubs", 13),
+  new Card("9", "Spades", 9),
+  new Card("A", "Diamonds", 1),
+  new Card("7", "Clubs", 7), // Duplicate Ace
+];
+
 //TESTING FOR SHUFFLING CARDS
 myDeck.shuffle();
 
@@ -340,3 +360,4 @@ myDeck.isStraight(incompleteHand); //should throw error
 myDeck.isStraight(highStraightHandWithDuplicate); // Should print "Not Consecutive!" and return false
 myDeck.isStraight(highStraightHandMixedOrder); // Should print "High Straight!" and return true
 myDeck.isStraight(handWithDuplicatePriorities); // Should print "Not Consecutive!" and return false
+myDeck.isStraight(highStraightText); // Should print "Not Consecutive!" and return false

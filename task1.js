@@ -81,6 +81,21 @@ class Deck {
       );
     }
 
+    /*
+    I USE SET DATA STRUCTURE IF THERE IS EVEN 1 DUPLICATE 
+    THE RESULT SHOULD BE NOT CONSECUTIVE AS THE HAND WON'T BE STRAIGHT
+    THEREFORE, I AM RETURNING FALSE IMMEDIATELY
+    */
+    const prioritiesSet = new Set();
+    for (let card of hand) {
+      if (prioritiesSet.has(card.priority)) {
+        console.log("Not Consecutive!");
+        return false;
+      }
+      prioritiesSet.add(card.priority);
+    }
+
+    //if there is no duplicate  then we would continue with sorting!
     hand.sort((a, b) => a.priority - b.priority);
 
     /*
@@ -94,15 +109,23 @@ class Deck {
       return true;
     }
 
-    for (let i = 0; i < hand.length - 1; i++) {
-      if (hand[i + 1].priority - hand[i].priority != 1) {
-        console.log("Not Consecutive!");
-        return false;
-      }
+    /*
+      THE FIRST IDEA I HAD WAS USING A FOR LOOP AND COUNTING THE DISTANCE BETWEEN EACH CARD
+      IF THE DISTANCE IS DIFFERENT THAN 1 IT SHOULD THROW ERROR BUT SINCE I REMOVE THE DUPLICATES
+      THERE IS NO NEED TO ITERATE AGAIN HERE.
+
+      IF THE CASE IS NOT HIGH STRAIGHT THEN THE DISTANCE BETWEEN THE HIGHEST CARD
+      AND THE LOWEST CARD SHOULD BE 4 ALWAYS. IF THE CONDITION IS SATISFIED THEN WE CAN 
+      KNOW THAT THE HAND IS CONSISTING OF CONSECUTIVE CARDS!
+    */
+    if (hand[hand.length - 1].priority - hand[0].priority === 4) {
+      console.log("Consecutive!");
+      return true;
     }
 
-    console.log("Consecutive!");
-    return true;
+    //for any other case it should be not consecutive!
+    console.log("Not Consecutive!");
+    return false;
   }
 }
 
@@ -120,6 +143,23 @@ const exampleFlush = [
   new Card("J", "Hearts"),
   new Card("Q", "Hearts"),
   new Card("K", "Hearts"),
+];
+
+const exampleFlush2 = [
+  new Card("2", "Spades"),
+  new Card("4", "Spades"),
+  new Card("7", "Spades"),
+  new Card("9", "Spades"),
+  new Card("J", "Spades"),
+];
+
+// Non-flush with mixed suits
+const exampleNotFlush2 = [
+  new Card("3", "Clubs"),
+  new Card("5", "Diamonds"),
+  new Card("8", "Clubs"),
+  new Card("10", "Hearts"),
+  new Card("K", "Clubs"),
 ];
 
 const exampleNotFlush = [
@@ -152,6 +192,14 @@ const highStraightHand = [
   new Card("Q", "Clubs", 12),
   new Card("K", "Spades", 13),
   new Card("A", "Hearts", 1), // Ace as high card
+];
+
+const highStraightHandShuffled = [
+  new Card("10", "Hearts", 10),
+  new Card("J", "Diamonds", 11),
+  new Card("A", "Hearts", 1), // Ace as high card
+  new Card("Q", "Clubs", 12),
+  new Card("K", "Spades", 13),
 ];
 
 const lowStraightHand = [
@@ -194,12 +242,85 @@ const duplicateRanksHand = [
   new Card("K", "Hearts", 13),
 ];
 
+const highStraightHandSameCards = [
+  new Card("10", "Hearts", 10),
+  new Card("10", "Diamonds", 10),
+  new Card("A", "Hearts", 1), // Ace as high card
+  new Card("J", "Clubs", 11),
+  new Card("K", "Spades", 13),
+];
+
+// Straight with mixed suits
+const straightHand2 = [
+  new Card("6", "Hearts", 6),
+  new Card("7", "Diamonds", 7),
+  new Card("8", "Clubs", 8),
+  new Card("9", "Spades", 9),
+  new Card("10", "Hearts", 10),
+];
+
+// Low straight with Ace as the lowest card
+const lowStraightHand2 = [
+  new Card("A", "Diamonds", 1),
+  new Card("2", "Hearts", 2),
+  new Card("3", "Spades", 3),
+  new Card("4", "Clubs", 4),
+  new Card("5", "Diamonds", 5),
+];
+
+// Non-consecutive straight with a gap
+const nonConsecutiveStraightHand = [
+  new Card("2", "Hearts", 2),
+  new Card("3", "Diamonds", 3),
+  new Card("4", "Clubs", 4),
+  new Card("6", "Spades", 6),
+  new Card("7", "Hearts", 7),
+];
+
+// High straight with Ace as the highest card but with duplicates
+const highStraightHandWithDuplicate = [
+  new Card("10", "Hearts", 10),
+  new Card("J", "Diamonds", 11),
+  new Card("Q", "Clubs", 12),
+  new Card("K", "Spades", 13),
+  new Card("A", "Diamonds", 1),
+  new Card("A", "Clubs", 1), // Duplicate Ace
+];
+
+// Four-card hand (invalid for straight check)
+const incompleteHand = [
+  new Card("2", "Hearts", 2),
+  new Card("3", "Diamonds", 3),
+  new Card("4", "Clubs", 4),
+  new Card("5", "Spades", 5),
+];
+
+// High straight with shuffled order
+const highStraightHandMixedOrder = [
+  new Card("K", "Spades", 13),
+  new Card("J", "Diamonds", 11),
+  new Card("A", "Hearts", 1),
+  new Card("10", "Clubs", 10),
+  new Card("Q", "Hearts", 12),
+];
+
+// Non-straight with repeated priority values
+const handWithDuplicatePriorities = [
+  new Card("7", "Hearts", 7),
+  new Card("8", "Diamonds", 8),
+  new Card("8", "Clubs", 8), // Duplicate priority
+  new Card("9", "Spades", 9),
+  new Card("10", "Hearts", 10),
+];
+
 //TESTING FOR SHUFFLING CARDS
 myDeck.shuffle();
 
 //TESTING FOR FLUSH
 myDeck.isFlush(exampleFlush);
 myDeck.isFlush(exampleNotFlush);
+myDeck.isFlush(exampleFlush2);
+myDeck.isFlush(exampleNotFlush2);
 //TESTING FOR STRAIGHT CASES
 myDeck.isStraight(nonStraightHand); // Should print "Not Consecutive!" and return false
 myDeck.isStraight(straightHand1); // Should print "Consecutive!" and return true
@@ -210,3 +331,12 @@ myDeck.isStraight(nonStraightHand); // Should print "Not Consecutive!" and retur
 myDeck.isStraight(incompleteStraightHand); // Should print "Not Consecutive!" and return false
 myDeck.isStraight(duplicateRanksHand); // Should print "Not Consecutive!" and return false
 myDeck.isStraight(straightHandTest); // Should print "Consecutive!" and return true
+myDeck.isStraight(highStraightHandShuffled); // Should print "High Straight!" and return true
+myDeck.isStraight(highStraightHandSameCards); // Should print "Not Consecutive!" and return false
+myDeck.isStraight(straightHand2); // Should print "Consecutive!" and return true
+myDeck.isStraight(lowStraightHand2); // Should print "Consecutive!" and return true
+myDeck.isStraight(nonConsecutiveStraightHand); // Should print "Not Consecutive!" and return false
+myDeck.isStraight(incompleteHand); //should throw error
+myDeck.isStraight(highStraightHandWithDuplicate); // Should print "Not Consecutive!" and return false
+myDeck.isStraight(highStraightHandMixedOrder); // Should print "High Straight!" and return true
+myDeck.isStraight(handWithDuplicatePriorities); // Should print "Not Consecutive!" and return false

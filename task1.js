@@ -324,13 +324,13 @@ const handWithDuplicatePriorities = [
   new Card("10", "Hearts", 10),
 ];
 
-const highStraightText = [
+const highStraightTest = [
   new Card("10", "Hearts", 10),
   new Card("J", "Diamonds", 11),
   new Card("K", "Clubs", 13),
   new Card("9", "Spades", 9),
   new Card("A", "Diamonds", 1),
-  new Card("7", "Clubs", 7), // Duplicate Ace
+  new Card("7", "Clubs", 7),
 ];
 
 //TESTING FOR SHUFFLING CARDS
@@ -360,4 +360,4 @@ myDeck.isStraight(incompleteHand); //should throw error
 myDeck.isStraight(highStraightHandWithDuplicate); // Should print "Not Consecutive!" and return false
 myDeck.isStraight(highStraightHandMixedOrder); // Should print "High Straight!" and return true
 myDeck.isStraight(handWithDuplicatePriorities); // Should print "Not Consecutive!" and return false
-myDeck.isStraight(highStraightText); // Should print "Not Consecutive!" and return false
+myDeck.isStraight(highStraightTest); // Should print "Not Consecutive!" and return false

@@ -75,7 +75,7 @@ class Deck {
           I CAN CHECK IF THE ARRAY IS CONSECUTIVE OR NOT!
       */
 
-    if (hand.length < 5) {
+    if (hand.length != 5) {
       return console.error(
         "There are no 5 elements in the hand! can not check!"
       );

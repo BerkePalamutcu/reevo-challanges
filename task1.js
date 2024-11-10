@@ -209,5 +209,4 @@ myDeck.isStraight(regularStraightHand); // Should print "Consecutive!" and retur
 myDeck.isStraight(nonStraightHand); // Should print "Not Consecutive!" and return false
 myDeck.isStraight(incompleteStraightHand); // Should print "Not Consecutive!" and return false
 myDeck.isStraight(duplicateRanksHand); // Should print "Not Consecutive!" and return false
-
-myDeck.isStraight(straightHandTest);
+myDeck.isStraight(straightHandTest); // Should print "Consecutive!" and return true

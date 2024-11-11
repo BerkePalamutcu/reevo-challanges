@@ -71,7 +71,7 @@ const fetchDogImage = async (breed) => {
   return response.message;
 };
 
-const saveBreedImagesToFile = async (imageUrls) => {
+const saveBreedImagesToFile = (imageUrls) => {
   try {
     fs.writeFileSync("dog_breeds.txt", imageUrls.join("\n"), "utf-8");
     console.log("Image URLs saved to dog_breeds.txt");
